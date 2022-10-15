@@ -12,6 +12,7 @@ class UrlSelector:
 
     urls_list: list = list()
     path_file = "./urls-list.txt"
+    path_accepted_file = "./accepted_links.txt"
 
     @property
     def get_links(self):
@@ -27,7 +28,7 @@ class UrlSelector:
         except IOError as error:
             print("Ошибка открытия со ссылками!:\n" + str(error))
 
-    def __clear_empty_links(self, remove):
+    def __clear_empty_links(self, remove: str):
         for url in range(len(self.urls_list)):
             try:
                 self.urls_list.remove(remove)
@@ -38,7 +39,7 @@ class UrlSelector:
         with open(self.path_file, encoding="UTF-8", mode="w"):
             pass
 
-    def __rewrite_file(self, links):
+    def __rewrite_file(self, links: list):
         with open(self.path_file, encoding="UTF-8", mode="w") as file:
             file.writelines(links)
             file.close()
@@ -60,14 +61,21 @@ class UrlSelector:
         except IOError as error:
             print("Ошибка изменения файла со ссылками!:\n" + str(error))
 
-
-    def overwriting_links(self, temp_links):
+    def overwriting_links(self, temp_links: list):
         try:
             with open(self.path_file, encoding="UTF-8", mode="a") as file:
                 file.writelines(temp_links)
                 file.close()
         except IOError as error:
             print("Ошибка изменения файла во время дозаписи:\n" + str(error))
+
+    def write_accepted_links(self, links: list):
+        try:
+            with open(self.path_accepted_file, encoding="UTF-8", mode="a") as file:
+                file.writelines(links)
+                file.close()
+        except IOError as error:
+            print("Ошибка изменения файла с отработанными ссылками:\n" + str(error))
 
 
 if __name__ == "__main__":
