@@ -23,18 +23,29 @@ def loop():
                 result = indexer.worker(temp_links, "URL_UPDATED")
                 if result is False:
                     print(f"{datetime.now().replace(microsecond=0)}. Google вернул квоту в 200 ссылок")
-                    time.sleep(30)
+                    time.sleep(100)
                     accepted_links = indexer.get_accepted_urls
                     indexer.clear_accepted_urls()
                     if len(accepted_links) != 0:
                         temp_links = clear_accepted_urls(temp_links, accepted_links)
                     else:
                         continue
+                accepted_links = indexer.get_accepted_urls
+                indexer.clear_accepted_urls()
+                if len(accepted_links) != 0:
+                    temp_links = clear_accepted_urls(temp_links, accepted_links)
+                else:
+                    continue
             else:
-                url_selector = UrlSelector.UrlSelector(delete_links=True)
+                time.sleep(0.5)
+                try:
+                    url_selector = UrlSelector.UrlSelector(delete_links=True)
+                except TypeError:
+                    #Отсутствие ссылок в файле для ссылок
+                    continue
                 temp_links = url_selector.get_links
                 continue
-    except KeyboardInterrupt as error:
+    except KeyboardInterrupt:
         print("Дозапись неиспользованных ссылок")
         url_selector = UrlSelector.UrlSelector(delete_links=False)
         if len(temp_links) != 0:

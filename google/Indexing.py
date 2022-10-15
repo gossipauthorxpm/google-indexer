@@ -1,5 +1,7 @@
+import googleapiclient.errors
 from googleapiclient.errors import HttpError
 from datetime import datetime
+from googleapiclient.errors import *
 
 
 class Indexation:
@@ -30,4 +32,10 @@ class Indexation:
                 if error.error_details[0]["reason"].__eq__("RATE_LIMIT_EXCEEDED"):
                     return False
                 else:
-                    print("Ошибка HTTP:\n" + str(error))
+                    print("Ошибка GoogleIndex:\n" + str(error))
+            except ConnectionResetError as error:
+                print(f"Разрыв соединения с сервером:\n{str(error)}"
+                      f"\nПовторная попытка подключения.")
+            except Error as error:
+                print(f"Ошибка соединения с сервером:\n{str(error)}"
+                      f"\nПовторная попытка подключения.")

@@ -6,7 +6,7 @@ class UrlSelector:
 
     def __init__(self, delete_links):
         self.__get_links()
-        self.urls_list = self.__clear_empty_links()
+        self.urls_list = self.__clear_empty_links("\n")
         if delete_links is True:
             self.__delete_links()
 
@@ -27,12 +27,12 @@ class UrlSelector:
         except IOError as error:
             print("Ошибка открытия со ссылками!:\n" + str(error))
 
-    def __clear_empty_links(self):
-        try:
-            for url in range(len(self.urls_list)):
-                self.urls_list.remove("\n")
-        except ValueError:
-            return self.urls_list
+    def __clear_empty_links(self, remove):
+        for url in range(len(self.urls_list)):
+            try:
+                self.urls_list.remove(remove)
+            except ValueError:
+                return self.urls_list
 
     def __clear_file(self):
         with open(self.path_file, encoding="UTF-8", mode="w"):
@@ -59,6 +59,7 @@ class UrlSelector:
                     self.__rewrite_file(no_action_links_file)
         except IOError as error:
             print("Ошибка изменения файла со ссылками!:\n" + str(error))
+
 
     def overwriting_links(self, temp_links):
         try:
