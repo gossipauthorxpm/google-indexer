@@ -45,6 +45,7 @@ def loop():
                     url_selector = UrlSelector.UrlSelector(delete_links=True)
                 except TypeError:
                     # Отсутствие ссылок в файле для ссылок
+                    time.sleep(5)
                     continue
                 temp_links = url_selector.get_links
                 time.sleep(5)

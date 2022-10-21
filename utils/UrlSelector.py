@@ -77,6 +77,3 @@ class UrlSelector:
         except IOError as error:
             print("Ошибка изменения файла с отработанными ссылками:\n" + str(error))
 
-
-if __name__ == "__main__":
-    UrlSelector()

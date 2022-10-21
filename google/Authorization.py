@@ -1,6 +1,6 @@
-from google_auth_oauthlib.flow import InstalledAppFlow
-from googleapiclient.discovery import build
+import httplib2
 from googleapiclient.errors import HttpError
+from oauth2client.service_account import ServiceAccountCredentials
 
 
 class Authorization:
@@ -8,20 +8,20 @@ class Authorization:
         """
         Авторизация в сервисы гугл
         """
-        self.OAUTH_FILE_PATH = file_path
+        self.JSON_KEY_FILE = file_path
         self.SCOPES = ["https://www.googleapis.com/auth/indexing"]
-        self.SERVICE_NAME = 'indexing'
-        self.VERSION = "v3"
+        self.ENDPOINT = "https://indexing.googleapis.com/v3/urlNotifications:publish"
+
+    @property
+    def get_endpoint(self):
+        return self.ENDPOINT
 
     def auth(self):
-        flow = InstalledAppFlow.from_client_secrets_file(self.OAUTH_FILE_PATH, self.SCOPES)
-        credentials = flow.run_local_server(port=0)
+        credentials = ServiceAccountCredentials.from_json_keyfile_name(self.JSON_KEY_FILE, scopes=self.SCOPES)
 
         try:
-            service = build(self.SERVICE_NAME, self.VERSION,
-                            credentials=credentials, cache_discovery=False)
-            return service
-
+            http = credentials.authorize(httplib2.Http())
+            return http
 
         except HttpError as error:
             print("Ошибка подключения к сервисам Google:\n" + str(error))
