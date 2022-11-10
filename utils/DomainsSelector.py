@@ -8,8 +8,12 @@ class DomainSelector:
         self.__check_domains_files()
 
     @property
-    def get_account_json(self):
+    def get_path_account_json(self):
         return self.domains["file_paths"][0]
+
+    @property
+    def get_all_accounts(self):
+        return self.domains["file_paths"]
 
     domains: dict = dict({
         "domains": list(),

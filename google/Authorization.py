@@ -16,6 +16,9 @@ class Authorization:
     def get_endpoint(self):
         return self.ENDPOINT
 
+    def set_file_path(self, file_path):
+        self.JSON_KEY_FILE = file_path
+
     def auth(self):
         credentials = ServiceAccountCredentials.from_json_keyfile_name(self.JSON_KEY_FILE, scopes=self.SCOPES)
 
