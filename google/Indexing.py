@@ -17,6 +17,7 @@ class Indexation:
 
     def set_account(self, account):
         self.account = account
+        self.account_service = self.account.auth()
 
     def clear_accepted_urls(self):
         self.accepted_urls = list()
@@ -25,7 +26,7 @@ class Indexation:
         """Отправка url адресов в Google"""
         for url in _urls:
             try:
-                time.sleep(2)
+                time.sleep(1)
                 content = """{
                   \"url\": \"%s\",
                   \"type\": \"%s\"
@@ -48,5 +49,5 @@ class Indexation:
                 print(f"Ошибка соединения с сервером:\n{str(error)}"
                       f"\nПовторная попытка подключения.")
             except GoogleError as error:
-                print(f"Ошибка подключения:\n{str(error)}")
+                print(f"Ошибка подключения: {str(error)}")
                 return False, "google_error"

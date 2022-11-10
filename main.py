@@ -37,9 +37,7 @@ def loop():
                     indexer.clear_accepted_urls()
                     if len(accepted_links) != 0:
                         temp_links = clear_accepted_urls(temp_links, accepted_links)
-
                     else:
-
                         continue
                 accepted_links = indexer.get_accepted_urls
                 url_selector = UrlSelector.UrlSelector(delete_links=False)
