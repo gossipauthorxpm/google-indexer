@@ -13,7 +13,7 @@ class UrlSelector:
     urls_list: list = list()
     path_file = "./urls-list.txt"
     path_accepted_file = "./accepted_links.txt"
-
+    length = 200
     @property
     def get_links(self):
         return self.urls_list
@@ -23,7 +23,7 @@ class UrlSelector:
         try:
             with open(self.path_file, encoding="UTF-8", mode="r") as file:
                 self.urls_list = file.readlines()
-                self.urls_list = self.urls_list[:200]
+                self.urls_list = self.urls_list[:self.length]
                 file.close()
         except IOError as error:
             print("Ошибка открытия со ссылками!:\n" + str(error))
@@ -50,12 +50,12 @@ class UrlSelector:
             with open(self.path_file, encoding="UTF-8", mode="r") as file:
                 links = file.readlines()
                 # Если ссылок меньше чем 200
-                if len(self.urls_list) <= 200 and len(links) <= 200:
+                if len(self.urls_list) <= self.length and len(links) <= 200:
                     file.close()
                     self.__clear_file()
                 # Если ссылок больше чем 200
                 else:
-                    no_action_links_file = links[200:]
+                    no_action_links_file = links[self.length:]
                     file.close()
                     self.__rewrite_file(no_action_links_file)
         except IOError as error:

@@ -23,7 +23,6 @@ def loop():
         while True:
             if len(temp_links) != 0:
                 result = indexer.worker(temp_links, "URL_UPDATED")
-
                 if result[0] is False:
                     account_selector.unvalid_account()
                     account.set_file_path(account_selector.get_valid_account)
@@ -45,9 +44,7 @@ def loop():
                 indexer.clear_accepted_urls()
                 if len(accepted_links) != 0:
                     temp_links = clear_accepted_urls(temp_links, accepted_links)
-
                 else:
-
                     continue
             else:
                 try:
@@ -61,7 +58,9 @@ def loop():
                 continue
     except KeyboardInterrupt:
         print("Дозапись неиспользованных ссылок")
+        accepted_links = indexer.get_accepted_urls
         url_selector = UrlSelector.UrlSelector(delete_links=False)
+        url_selector.write_accepted_links(accepted_links)
         if len(temp_links) != 0:
             temp_links[0] = "\n" + temp_links[0]
         url_selector.overwriting_links(temp_links)

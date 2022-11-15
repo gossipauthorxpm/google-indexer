@@ -23,22 +23,25 @@ class Indexation:
         self.accepted_urls = list()
 
     def worker(self, _urls, _method):
+        # i = 0
         """Отправка url адресов в Google"""
         for url in _urls:
             try:
-                time.sleep(1)
+                # i += 1
+                # time.sleep(1)
                 content = """{
                   \"url\": \"%s\",
                   \"type\": \"%s\"
                 }""" % (url, _method)
                 response, content = self.account_service.request(self.account.get_endpoint, method="POST", body=content)
                 if response['status'].__eq__("403"):
-                    raise GoogleError("Отказано в доступе. Проверьте правильность заполнения доступа аккаунтов сайта(403 error)!")
+                    raise GoogleError(
+                        "Отказано в доступе. Проверьте правильность заполнения доступа аккаунтов сайта(403 error)!")
                 elif response['status'].__eq__("200"):
                     self.accepted_urls.append(url)
                     print(f"{datetime.now().replace(microsecond=0)}. Ссылка {url} успешно проиндексирована")
                 elif response['status'].__eq__("402"):
-                    return False
+                    return (False, )
                 elif response['status'].__eq__("429"):
                     raise GoogleError("To many requests(429 error)!")
 
@@ -51,3 +54,4 @@ class Indexation:
             except GoogleError as error:
                 print(f"Ошибка подключения: {str(error)}")
                 return False, "google_error"
+        return (True, "inding pack is done")
