@@ -1,6 +1,6 @@
 Установить на ПК python версии 3.9 и выше. https://www.python.org/downloads/
 
-В папку domain_owners поместить secret_key.json (Client Account) (в этой версии можно несколько)
+В папку domain_owners поместить secret_key.json (Service Account) (в этой версии можно несколько)
 urls-list - список ссылок, которые необходимо проиндексировать
 
 Запуск через start.bat
